@@ -6,13 +6,12 @@ function bookimedWidget(obj) {
         this.blockId = obj.blockId || '.js-bookimed-widget';
         this.maxPage = obj.maxPage || 13;
         this.mediaPoint = obj.mediaPoint || 520;
-        this.maxWidth= obj.maxWidth ? obj.maxWidth + 'px' : 'none';
-        this.maxHeight= obj.maxHeight ? obj.maxHeight + 'px' : 'none';
-        this.maxTextHeight= parseInt(this.maxWidth) < this.mediaPoint ? 60 : 40;
         this.host = obj.host || 'https://bookimed.com/';
         this.lazyLoadOffset = obj.lazyLoadOffset && obj.lazyLoadOffset < 500 ?obj.lazyLoadOffset : 100;
         this.paddingConst = obj.paddingConst || 60;
         this.widget = document.querySelector(this.blockId);
+        this.maxWidth = this.widget.style["max-width"];
+        this.maxTextHeight= parseInt(this.maxWidth) < this.mediaPoint ? 60 : 40;
         this.headerWidget = this.widget.querySelector('.b-w-header');
         this.headerTopWidget = this.headerWidget.querySelector('.b-w-top');
         this.headerDownWidget = this.headerWidget.querySelector('.b-w-down');
@@ -63,14 +62,6 @@ function bookimedWidget(obj) {
                 request.send();
             }
         };
-
-        this.setSize = function() {
-            this.widget.setAttribute("style", "max-width:" + this.maxWidth + ";max-height:" + this.maxHeight);
-
-            if (parseInt(this.maxWidth) < this.mediaPoint) {
-                this.widget.classList.add('small');
-            }
-        }
 
         this.addContentMaxHeight = function() {
             var maxHeight = this.widget.getBoundingClientRect().height - this.paddingConst - this.headerWidget.getBoundingClientRect().height;
@@ -140,7 +131,6 @@ function bookimedWidget(obj) {
             });
         }
 
-        this.setSize();
         this.initShowHideBtn();
         this.initLazyLoad();
         this.addContentMaxHeight();
